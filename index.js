@@ -26,7 +26,7 @@ client.connect((err) => {
   const registerEventCollection = client
     .db("volunteerEventDb")
     .collection("registerOrder");
-
+  console.log("database connect");
   app.post("/addEvent", (req, res) => {
     const event = req.body;
     eventsCollection.insertMany(event).then((result) => {
@@ -51,8 +51,10 @@ client.connect((err) => {
 
   app.post("/registerEvent", (req, res) => {
     const registerEvent = req.body;
+    console.log(registerEvent);
     registerEventCollection.insertOne(registerEvent).then((result) => {
-      res.send(result.insertedCount > 0);
+      console.log(result);
+      res.send(result);
     });
   });
 
@@ -66,9 +68,10 @@ client.connect((err) => {
 
   app.delete("/delete/:eventId", (req, res) => {
     registerEventCollection
-      .deleteOne({ eventId: req.params.eventId })
+      .deleteOne({ _id: ObjectId(req.params.eventId) })
       .then((result) => {
-        res.send(result.deletedCount > 0);
+        console.log(result);
+        res.send(result);
       });
   });
 });
@@ -77,4 +80,4 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.listen(port);
+app.listen(process.env.PORT || port);
