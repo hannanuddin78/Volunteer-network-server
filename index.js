@@ -67,6 +67,7 @@ client.connect((err) => {
   });
 
   app.delete("/delete/:eventId", (req, res) => {
+    console.log(req.params.eventId);
     registerEventCollection
       .deleteOne({ _id: ObjectId(req.params.eventId) })
       .then((result) => {
