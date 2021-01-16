@@ -1,10 +1,10 @@
 const express = require("express");
+require("dotenv").config();
 const MongoClient = require("mongodb").MongoClient;
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const ObjectId = require("mongodb").ObjectId;
 
-require("dotenv").config();
 
 const app = express();
 
@@ -27,6 +27,7 @@ client.connect((err) => {
     .db("volunteerEventDb")
     .collection("registerOrder");
   console.log("database connect");
+
   app.post("/addEvent", (req, res) => {
     const event = req.body;
     eventsCollection.insertMany(event).then((result) => {
